@@ -65,10 +65,14 @@ The skill uses only verified read operations. Runtime permissions and account ro
 - `security-audit.json` — optional structured JSON for tooling integration
 - Styled HTML report — printable, self-contained, no external assets
 
+## Test-suite migration status
+
+The original `tests/` suite was inherited from a different repository and still contains Vercel-specific paths and expectations. It is retained for reference but is **not a valid verification suite for this Twinthos package**. The active `tests_current/` suite checks packaging, metadata redaction and HTML rendering. This narrower green CI does **not** mean the legacy suite was migrated or all audit checks were validated. New scenario tests must be added before claiming broad coverage.
+
 ## Validate
 
 ```sh
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s tests_current -v
 ```
 
 Tests require only the Python 3 standard library. Oldest tested version: Python 3.9.
