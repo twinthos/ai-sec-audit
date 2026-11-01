@@ -30,6 +30,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Compile bundled scripts
-        run: python -m py_compile skills/vercel-security-audit/scripts/*.py
+        run: python -m compileall -q scripts
       - name: Run tests
         run: python -B -m unittest discover -s tests -v
