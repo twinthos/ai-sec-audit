@@ -1,6 +1,6 @@
 # Security policy
 
-This is a community-maintained, unofficial project. It is not a Vercel product, and reports about it are not handled by Vercel.
+This is a community-maintained, unofficial project. It is not an official Twinthos product, and reports about it are not handled by Twinthos.
 
 ## Reporting a vulnerability in this skill
 
@@ -18,6 +18,6 @@ This is maintained in spare time, so there is no guaranteed response time. Fixes
 
 ## Out of scope
 
-- Vulnerabilities in Vercel's own products, the Vercel CLI or the Vercel plugin. Report those to Vercel through its official security reporting channels.
+- Vulnerabilities in AI platform's own products, the AI platform CLI or the AI platform plugin. Report those to the platform through its official security reporting channels.
 - Vulnerabilities in a host agent or browser that loads this skill.
 - An agent that ignores the skill's instructions. The instructions are guidance, not an access control; account permissions are the real boundary (see README).

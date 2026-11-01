@@ -6,47 +6,47 @@ This layout is one example that satisfies the [required components](#required-co
 
 ## Status at a glance
 
-[One plain-language sentence saying what the table covers and when.] Each cell shows one of the five statuses. Team-wide means the check was recorded once for the whole scope; By project means see the project columns.
+[One plain-language sentence saying what the table covers and when.] Each cell shows one of the five statuses. System-wide means the check was recorded once for the whole scope; By agent means see the agent columns.
 
-| Check | Team | [project alias] | [project alias] |
+| Check | System | [agent alias] | [agent alias] |
 | --- | --- | --- | --- |
-| [ID] [short plain-language check name] | [status key or By project] | [status key or Team-wide] | [status key or Team-wide] |
+| [ID] [short plain-language check name] | [status key or By agent] | [status key or System-wide] | [status key or System-wide] |
 
 Optional checks, kept separate from the 24 core checks:
 
-| Optional check | Team | [project alias] | [project alias] |
+| Optional check | System | [agent alias] | [agent alias] |
 | --- | --- | --- | --- |
-| [ID] [short plain-language check name] | [status key or By project] | [status key or Team-wide] | [status key or Team-wide] |
+| [ID] [short plain-language check name] | [status key or By agent] | [status key or System-wide] | [status key or System-wide] |
 
-Write one row per check, all 24 core checks in checklist order, and the four optional checks in their own table. Use exactly one status key per cell (`satisfactory`, `action_recommended`, `needs_confirmation`, `not_reviewed` or `not_applicable`), which renders as its labelled badge, or the words Team-wide or By project. Do not use pass, warning, fail, symbols or colour alone, and do not leave cells blank. Add one column per in-scope project alias; split projects across several tables if a table would exceed 16 columns. The appendix status stays the authoritative, counted outcome for each check: the matrix must not show a better result than the appendix supports, and differences between columns are explained in that check's appendix record.
+Write one row per check, all 24 core checks in checklist order, and the four optional checks in their own table. Use exactly one status key per cell (`satisfactory`, `action_recommended`, `needs_confirmation`, `not_reviewed` or `not_applicable`), which renders as its labelled badge, or the words System-wide or By agent. Do not use pass, warning, fail, symbols or colour alone, and do not leave cells blank. Add one column per in-scope agent alias; split agents across several tables if a table would exceed 16 columns.
 
 Status order, least to most favourable: `action_recommended`, `needs_confirmation`, `not_reviewed`, `satisfactory`, `not_applicable`.
 
-Mark a check the owner has accepted as deliberate (see [Deliberate or owner-accepted settings](#deliberate-or-owner-accepted-settings)) by ending its Check cell with exactly `(owner-accepted)`, for example `| DEP-01 Deployment protection scope (owner-accepted) | needs_confirmation |`. The status cells keep the status key, which stays `needs_confirmation`; the marker is not a status and is never added to a check with any other appendix outcome. Unmarked rows are not accepted. When any row carries the marker, add one sentence before the table saying what it means.
+Mark a check the owner has accepted as deliberate (see [Deliberate or owner-accepted settings](#deliberate-or-owner-accepted-settings)) by ending its Check cell with exactly `(owner-accepted)`, for example `| AGT-01 Agent job specification completeness (owner-accepted) | needs_confirmation |`. The status cells keep the status key, which stays `needs_confirmation`; the marker is not a status and is never added to a check with any other appendix outcome. Unmarked rows are not accepted. When any row carries the marker, add one sentence before the table saying what it means.
 
-A row with several status cells summarises to its least favourable status; Team-wide and By project cells are skipped. That summary must equal the appendix outcome for the check, so record the least favourable project result in the appendix and explain the differences there. `scripts/check_report.py` enforces this on the rendered HTML; see [status matrix comparison](report-design.md#status-matrix-comparison).
+A row with several status cells summarises to its least favourable status; System-wide and By agent cells are skipped. That summary must equal the appendix outcome for the check, so record the least favourable agent result in the appendix and explain the differences there. `scripts/check_report.py` enforces this on the rendered HTML; see [status matrix comparison](report-design.md#status-matrix-comparison).
 
 ## Review summary
 
 Keep this short and in plain language: a few sentences or bullets a non-technical reader can follow. Leave evidence references, field names and other technical detail to the appendix.
 
-Show summary times in a friendly form in the reader's time zone agreed at scope (recorded as `review_summary.time_zone`, an IANA name such as Europe/London), followed by UTC, for example `26 Oct 2026, 13:44-14:40 local time (CET, Europe/Paris; 12:44-13:40 UTC)`. If no reader time zone was agreed, use the agent host's local time zone and say so on the `Times shown in` line. Read the host zone from the host itself (for example its configured zone name, or `date '+%Z %z'`), and name it: an abbreviation such as BST or CET and the zone name such as Europe/London when the host exposes them, otherwise the UTC offset. Do not infer the zone from the team's, customer's or reader's location; use only the zone the user stated. Include the date on both ends when the window crosses midnight. If the host zone is unknown, give the UTC window alone and say local time is unavailable. Keep exact UTC timestamps in evidence records, coverage limits, Owner statement times and the appendix.
+Show summary times in a friendly form in the reader's time zone agreed at scope (recorded as `review_summary.time_zone`, an IANA name such as Europe/London), followed by UTC, for example `31 Oct 2026, 13:44-14:40 local time (CET, Europe/Paris; 12:44-13:40 UTC)`. If no reader time zone was agreed, use the agent host's local time zone and say so on the `Times shown in` line. Read the host zone from the host itself (for example its configured zone name, or `date '+%Z %z'`), and name it: an abbreviation such as BST or CET and the zone name such as Europe/London when the host exposes them, otherwise the UTC offset. Do not infer the zone from the system's, customer's or reader's location; use only the zone the user stated. Include the date on both ends when the window crosses midnight. If the host zone is unknown, give the UTC window alone and say local time is unavailable. Keep exact UTC timestamps in evidence records, coverage limits, Owner statement times and the appendix.
 
 The review window is the period the author states the review took place; the evidence line is derived from the timestamps of the logged observations, so it can be narrower than the stated window or, if the stated window is wrong, outside it. When both windows can be read (the stated window is written in the friendly form above, with its UTC part) and they do not overlap at all, add a `Time check` line saying so and correct the stated window or explain the difference before sharing.
 
 Your review identifies confirmed configuration strengths and practical improvements within the scope below. Unknowns are recorded separately so that missing access does not become an unsupported finding.
 
 - Times shown in: [the reader's agreed zone, for example Europe/London, or "the agent host's time zone" naming it, when no reader zone was agreed].
-- Review window (stated): [friendly local window naming the zone, then UTC; for example 26 Oct 2026, 13:44-14:40 local time (CET, Europe/Paris; 12:44-13:40 UTC)].
+- Review window (stated): [friendly local window naming the zone, then UTC; for example 31 Oct 2026, 13:44-14:40 local time (CET, Europe/Paris; 12:44-13:40 UTC)].
 - Evidence collected between (from observations): [first to last logged evidence observation, in the same friendly form].
-- Authorized scope: [owner-confirmed account/team aliases and included project/environment aliases].
-- Method: read-only public Vercel plugin/CLI supported reads, with browser verification in your own-team dashboard.
-- Overall takeaway: [brief, evidence-grounded statement; no unconditional claim that the account or application is safe].
+- Authorized scope: [owner-confirmed account/system aliases and included agent/environment aliases].
+- Method: read-only public platform/CLI supported reads, with browser verification in your own-system dashboard.
+- Overall takeaway: [brief, evidence-grounded statement; no unconditional claim that the system is safe].
 - Core coverage: [counts for each status across all 24 required core checks].
 - Optional coverage: [authorized/not authorized; counts for the four optional checks, kept separate].
 - Changes made: none. Recommendations below are proposed actions for your team, not actions performed during this review.
 
-This is a point-in-time configuration review. It is not a penetration test, security certification, compliance assessment, or ongoing monitoring service. A satisfactory setting does not establish application security.
+This is a point-in-time configuration review. It is not a penetration test, security certification, compliance assessment, or ongoing monitoring service. A satisfactory setting does not establish system security.
 
 ## Initial priorities
 
@@ -63,10 +63,10 @@ List at most three evidence-backed priorities, ordered by owner-relevant impact 
 
 ## Scope, missing evidence, and limitations
 
-- Included: [project/environment aliases, sample boundaries, list completeness, observation window].
-- Excluded: [teams/projects/environments outside permission, unreviewed time ranges, application/source review unless separately authorized].
-- Authorization: [owner authority confirmed; optional source/application scope and consent boundary if applicable].
-- Sources used: [verified plugin/CLI capability descriptions and browser views; refer to `capabilities.md`, not guessed commands or UI paths].
+- Included: [agent/environment aliases, sample boundaries, list completeness, observation window].
+- Excluded: [systems/agents/environments outside permission, unreviewed time ranges, application/source review unless separately authorized].
+- Authorization: [owner alias and role confirmed; optional source/application scope and consent boundary if applicable].
+- Sources used: [verified platform/CLI capability descriptions and browser views; refer to `capabilities.md`, not guessed commands or UI paths].
 - Missing evidence: [topic ID, unavailable field/view, access or plan limit, and exact question remaining].
 - Conflicting or stale evidence: [topic ID, conflicting observations/times, and what would resolve the difference].
 - Owner statements: [process/ownership claims distinguished from observed configuration; inline owner round run with UTC time, or skipped with reason (for example noninteractive host or owner not present)].
@@ -76,16 +76,16 @@ List at most three evidence-backed priorities, ordered by owner-relevant impact 
 - Applicability decisions: [feature/subfeature, verified rationale and evidence; a 403, upgrade prompt or plan label alone does not establish not_applicable, but a structured plan entitlement field from a verified read can when current documentation agrees (see evidence assessment); mixed-check unresolved settings remain visible].
 - Documentation verification: [verified canonical public sources with dates, or verification pending].
 
-Unavailable fields mean unknown, not disabled. An optional policy being off is not automatically a vulnerability. Plan limitations are not misconfigurations. A metadata change does not prove credential rotation; age does not prove a project is unused. Code or Git organization names do not prove ownership. Platform API authentication does not establish application authentication.
+Unavailable fields mean unknown, not disabled. An optional policy being off is not automatically a vulnerability. Plan limitations are not misconfigurations. A metadata change does not prove credential rotation; age does not prove an agent is unused. Code or Git organization names do not prove ownership. Platform API authentication does not establish application authentication.
 
 ### Optional scope decisions
 
 Record consent per checklist ID and named source/application, not one global optional-scope yes/no. Reuse explicit decisions already given; do not repeat resolved questions. A full review request alone does not authorise these reads. Keep optional coverage separate from all 24 core outcomes. For each record include not_requested/accepted/declined/partial, Owner self-statement provenance and UTC approval time when accepted, named material aliases, authorised read boundaries and exclusions. Unauthorised checks stay not_reviewed with no collected optional evidence and reason unauthorised, not a core failure; partial coverage must identify both the inspected material and unreviewed remainder.
 
-- DEP-04 - Application authentication boundaries: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
+- AGT-04 - Prompt-injection boundary review: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
 - SRC-04 - Repository governance evidence: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
 - SEC-04 - Secret handling and log redaction design: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
-- OPS-04 - Application recovery design: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
+- OPS-04 - Agent recovery design: [decision; named source/application; consent provenance/date; included material; exclusions; coverage/status].
 
 ## Coverage limits
 
@@ -120,7 +120,7 @@ Repeat the following block for each supported recommendation. Keep the initial p
 - Benefit: [practical reduction in unwanted exposure or operational uncertainty; avoid unproven exploit claims].
 - Who: [responsible role, without personal details].
 - Before changing: [confirm intended audience, dependencies, plan availability, approvals, current state, and impact window; if any prerequisite is unknown, resolve it first].
-- Where to start: [exact dashboard/repository URL only after verifying it belongs to the authorized scope and contains no credentials or bypass values; otherwise say “Location not yet verified” and give a non-invented capability description].
+- Where to start: [exact dashboard/repository URL only after verifying it belongs to the authorized scope and contains no credentials or bypass values; otherwise say "Location not yet verified" and give a non-invented capability description].
 
 Numbered action steps: each step contains one action. Replace placeholders with verified instructions; do not guess UI labels or CLI flags. A confirmation-only recommendation stops after the relevant confirmation step.
 1. [Confirm one unresolved prerequisite, if applicable].
@@ -130,7 +130,7 @@ Numbered action steps: each step contains one action. Replace placeholders with 
 
 - Done when: [observable completion criterion and scope; distinguish configured state from tested application behavior].
 - Impact / rollback: [possible user/build/automation interruption, dependencies, and verified way to restore prior configuration; if unknown, say so and defer changes].
-- Docs: [canonical current public documentation title, verified exact URL, verification date, and claim supported; if not verified, write “Verification pending” and omit the URL].
+- Docs: [canonical current public documentation title, verified exact URL, verification date, and claim supported; if not verified, write "Verification pending" and omit the URL].
 
 Verify documentation against current public sources before sharing instructions. Do not invent feature availability, plan entitlements, prices, or guarantees. Omit pricing unless relevant and verified from current official public pricing information. A documentation link supports only the claim it actually addresses.
 
@@ -156,9 +156,9 @@ Keep replies as Owner self-statements (`source_kind: owner_statement`), separate
 ```text
 Owner confirmation questions for [approved scope alias]
 
-1. CRE-01: Using only your own current metadata in the agreed scope, what is your scoped token count, and what scope and expiry metadata is visible? Give redacted aggregate counts and expiry coverage only, or say unavailable. If expiry is not_applicable, state the verified reason (for example, a verified zero-token inventory); missing visibility is not non-applicability. Do not supply token values, token strings, sensitive token names or screenshots revealing credentials. Metadata dates alone do not prove rotation or actual use.
+1. SEC-01: Using only your own current metadata in the agreed scope, what is your scoped secret count, and what rotation and protection metadata is visible? Give redacted aggregate counts and rotation coverage only, or say unavailable. If rotation is not_applicable, state the verified reason (for example, a verified zero-secret inventory); missing visibility is not non-applicability. Do not supply secret values, secret strings, sensitive secret names or screenshots revealing credentials. Metadata dates alone do not prove rotation or actual use.
 
-2. IAM-02: Does your own MFA posture meet the agreed policy [record the agreed requirement, or mark it unresolved], and is recoverability arranged within that policy? Confirm policy compliance, recoverability and any unresolved exception at a non-secret level only. Do not provide passwords, recovery codes, authentication method secrets, device identifiers or setup details. Your statement does not establish team-wide enrolment or enforcement.
+2. GOV-01: Does your own human-approval posture meet the agreed policy [record the agreed requirement, or mark it unresolved], and is recoverability arranged within that policy? Confirm policy compliance, recoverability and any unresolved exception at a non-secret level only. Do not provide passwords, recovery codes, authentication method secrets, device identifiers or setup details. Your statement does not establish system-wide enforcement.
 
 3. OPS-01: Can you confirm incident delivery ownership and escalation responsibility for this scope? Identify responsible roles and non-sensitive subscription/delivery arrangements, not endpoints, webhook URLs, email addresses or other recipient identifiers. Distinguish configured subscription metadata from an Owner statement about delivery readiness. If actual delivery has not been verified through a separately approved procedure, say that it remains unverified; this questionnaire does not authorise a delivery test.
 
@@ -189,16 +189,16 @@ Every report must contain the mandatory components below. The layout above is on
 Mandatory components and their fixed rules:
 
 1. Title: the first line is one `# ` heading naming the reviewed scope alias. The renderer requires this.
-2. Status matrix: opens the report, directly after the title and any draft notice, before the review summary. It is a pipe table with one row per check (24 core checks, then the four optional checks in a separate table), a Team column and one column per in-scope project alias. Each cell holds exactly one of the five status keys, or Team-wide or By project; only the Check cell of an owner-accepted check may end with the fixed `(owner-accepted)` marker. It uses the five statuses, never pass, warning or fail. It summarises the appendix: each row's least favourable status, in the status order defined under Status at a glance, equals that check's appendix outcome, so it never shows a better result than the appendix supports, and its badges are not counted as outcomes.
+2. Status matrix: opens the report, directly after the title and any draft notice, before the review summary. It is a pipe table with one row per check (24 core checks, then the four optional checks in a separate table), a System column and one column per in-scope agent alias. Each cell holds exactly one of the five status keys, or System-wide or By agent; only the Check cell of an owner-accepted check may end with the fixed `(owner-accepted)` marker. It uses the five statuses, never pass, warning or fail. It summarises the appendix: each row's least favourable status, in the status order defined under Status at a glance, equals that check's appendix outcome, so it never shows a better result than the appendix supports, and its badges are not counted as outcomes.
 3. Review summary: short and plain-language, with technical detail left to the appendix. It gives the review time or window in friendly local time with UTC alongside (exact UTC stays in the evidence and appendix), the authorised scope, the method, an evidence-grounded overall takeaway with no unconditional safety claim, separate core and optional status counts, `Changes made: none`, and the point-in-time statement that this is not a penetration test, certification, compliance assessment or monitoring. Place it before the recommendations.
 4. Initial priorities: at most three evidence-backed priorities, each with its topic ID and responsible role, placed before the recommendations. Use fewer when the evidence supports fewer; never promote an unknown to a confirmed weakness.
 5. Confirmed strengths: only checks recorded as satisfactory, each with its limited benefit and evidence reference, or an explicit statement that none are confirmed. It may be merged into the summary.
 6. Scope and limitations: included and excluded scope, authorisation, sources used, missing, conflicting or stale evidence, labelled Owner statements, observed plan and entitlements, applicability decisions and documentation verification, with the inference cautions from the example layout.
-7. Optional scope decisions: one record for each of DEP-04, SRC-04, SEC-04 and OPS-04, kept separate from core outcomes.
+7. Optional scope decisions: one record for each of AGT-04, SRC-04, SEC-04 and OPS-04, kept separate from core outcomes.
 8. Coverage limits: the per-source/feed block, present even when no limits are known or no collection occurred.
 9. Actions: each recommendation gives its related checks and statuses, evidence and rationale, benefit, responsible role, prerequisites before changing, where to start, numbered single-action steps, a completion check (`Done when`), impact and rollback, and verified documentation or `Verification pending`. Confirmation tasks are labelled as confirmation. Field labels may be list items or bold labels.
 10. Follow-up: Owner decisions needed, deferred checks and a suggested recheck, without implying monitoring or completed remediation.
-11. Owner confirmation questionnaire: all three question groups (CRE-01, IAM-02, OPS-01) with provided answers or explicit not-answered states.
+11. Owner confirmation questionnaire: all three question groups (SEC-01, GOV-01, OPS-01) with provided answers or explicit not-answered states.
 12. Appendix check outcomes: every one of the 24 core and four optional IDs exactly once, each as a third-level `ID - Title` heading with exactly one `Status:` line using the five statuses, inside second-level sections whose headings begin `Appendix`. This structure is fixed because the [report checker](report-design.md#count-comparison-contract) counts it. Keep technical evidence detail here rather than in the summary.
 13. Disclaimers: community-maintained and unofficial identity, not a certification or guarantee, no changes made, and nothing published or sent. The HTML shell adds its own header and footer; the Markdown must still carry these statements.
 
@@ -218,11 +218,11 @@ JSON is optional; readable Markdown evidence is sufficient. This synthetic examp
 
 ```json
 {
-  "topic_id": "CRE-01",
-  "scope_alias": "example-team",
-  "observed_at": "2026-10-25T12:00:00Z",
+  "topic_id": "SEC-01",
+  "scope_alias": "example-system",
+  "observed_at": "2026-10-31T12:00:00Z",
   "source_kind": "browser",
-  "source_description": "Owner-visible credential metadata",
+  "source_description": "Owner-visible secret metadata",
   "evidence_ref": "example-evidence-01",
   "observed": { "expiry_visibility": "not_shown" },
   "status": "needs_confirmation",
@@ -236,11 +236,11 @@ JSON is optional; readable Markdown evidence is sufficient. This synthetic examp
 Synthetic aliases stay mandatory in the report itself. When the report is for the account owner alone, they may ask for a private legend that maps aliases back to resources so they can act on findings. Offer it only on request or when the audience is just the owner, and record their choice.
 
 - Keep the legend in a separate file in the same private output location, for example `alias-legend.txt`. Never embed it in the Markdown, JSON model, HTML or PDF, and never pass it to the renderer or QA script.
-- Map only team, project, environment and domain aliases to resource names already returned by authorised inventory reads. Never include people (member names, emails, handles, role holders), credentials, URLs with tokens, environment values or anything collected outside the agreed scope.
-- How each name reaches the legend, without breaking the [pre-exposure gate](capabilities.md#what-counts-as-field-selection-before-exposure): a name qualifies only if it was already returned through a gate-approved read in the agreed scope (for example a project name from the reader's `project-ls` read after team-wide inventory authorisation, or a verified metadata-only connector), or the owner supplied it in the conversation. The bundled CLI reader never returns hostnames: its `domains` read assigns `domain-N` aliases inside the reader and drops the names, so no legend entry for a `domain-N` alias can come from reader output. For those aliases, and any other alias whose real name was never returned, ask the owner to supply the mapping if they want one. Label those entries "supplied by owner" and do not verify or expand them with another read. Never read names some other way, such as a bare or ad-hoc filtered CLI command, the dashboard Domains page, the REST API or DNS lookups, just to build a legend. Aliases with no qualifying name stay unmapped, and the legend says so.
+- Map only system, agent, environment and domain aliases to resource names already returned by authorised inventory reads. Never include people (member names, emails, handles, role holders), credentials, URLs with tokens, environment values or anything collected outside the agreed scope.
+- How each name reaches the legend, without breaking the [pre-exposure gate](capabilities.md#what-counts-as-field-selection-before-exposure): a name qualifies only if it was already returned through a gate-approved read in the agreed scope (for example an agent name from the reader's `agent-ls` read after system-wide inventory authorisation, or a verified metadata-only connector), or the owner supplied it in the conversation. The bundled CLI reader never returns hostnames: its `domains` read assigns `domain-N` aliases inside the reader and drops the names, so no legend entry for a `domain-N` alias can come from reader output. For those aliases, and any other alias whose real name was never returned, ask the owner to supply the mapping if they want one. Label those entries "supplied by owner" and do not verify or expand them with another read. Never read names some other way, such as a bare or ad-hoc filtered CLI command, the dashboard Agents page, the REST API or DNS lookups, just to build a legend. Aliases with no qualifying name stay unmapped, and the legend says so.
 - Start the file with: "Private alias legend. Do not share, attach or publish. Shared copies of the report must not include this file."
 - Tell the user where it is and that any shared or forwarded version of the report must leave it out. Write it only to a new file; never overwrite an existing one.
 
 ## Deliverable format
 
-Markdown is mandatory and remains the source deliverable. Styled HTML uses the bundled community template when Python 3 is available; read [report design](report-design.md) before rendering. PDF is optional, exported from that same HTML through an already-installed browser or renderer. Do not use a renderer that adds official Vercel branding or fetches remote assets. If rendering is unavailable, deliver Markdown without installing tools. Review all rendered pages for redaction and layout. An export is not permission to publish or send.
+Markdown is mandatory and remains the source deliverable. Styled HTML uses the bundled community template when Python 3 is available; read [report design](report-design.md) before rendering. PDF is optional, exported from that same HTML through an already-installed browser or renderer. Do not use a renderer that adds official Twinthos branding or fetches remote assets. If rendering is unavailable, deliver Markdown without installing tools. Review all rendered pages for redaction and layout. An export is not permission to publish or send.
