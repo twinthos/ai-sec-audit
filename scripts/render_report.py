@@ -7,6 +7,7 @@ local assets only. No remote fetches, no analytics.
 """
 
 import argparse
+import html
 import re
 import sys
 from pathlib import Path
@@ -76,6 +77,7 @@ def md_to_html(md_text: str) -> str:
 
     for line in lines:
         stripped = line.strip()
+        safe = html.escape(stripped, quote=True)
 
         if stripped.startswith("```"):
             if in_code:
@@ -83,7 +85,7 @@ def md_to_html(md_text: str) -> str:
                 in_code = False
             else:
                 lang = stripped[3:].strip()
-                html.append(f'<pre><code class="language-{lang}">')
+                html.append(f'<pre><code class="language-{html.escape(lang, quote=True)}">')
                 in_code = True
             continue
         if in_code:
@@ -92,19 +94,19 @@ def md_to_html(md_text: str) -> str:
 
         if stripped.startswith("# "):
             title = stripped[2:].strip()
-            html.append(f"<h1>{title}</h1>")
+            html.append(f"<h1>{html.escape(title)}</h1>")
             continue
         if stripped.startswith("## "):
             heading = stripped[3:].strip()
-            html.append(f"<h2>{heading}</h2>")
+            html.append(f"<h2>{html.escape(heading)}</h2>")
             continue
         if stripped.startswith("### "):
             heading = stripped[4:].strip()
-            html.append(f"<h3>{heading}</h3>")
+            html.append(f"<h3>{html.escape(heading)}</h3>")
             continue
 
         if stripped.startswith("| ") and "|" in stripped[1:]:
-            cells = [c.strip() for c in stripped.strip().strip("|").split("|")]
+            cells = [html.escape(c.strip(), quote=True) for c in stripped.strip().strip("|").split("|")]
             if not in_table:
                 html.append('<table>')
                 in_table = True
@@ -128,14 +130,14 @@ def md_to_html(md_text: str) -> str:
             if not in_list:
                 html.append("<ul>")
                 in_list = True
-            item = stripped[2:]
+            item = html.escape(stripped[2:], quote=True)
             item = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", item)
             html.append(f"<li>{item}</li>")
             continue
         if in_list and not stripped.startswith("- "):
             html.append("</ul>")
             in_list = False
-            html.append(f"<p>{stripped}</p>" if stripped else "")
+            html.append(f"<p>{safe}</p>" if stripped else "")
             continue
 
         if stripped == "":
@@ -144,7 +146,7 @@ def md_to_html(md_text: str) -> str:
                 in_list = False
             continue
 
-        text = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", stripped)
+        text = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", safe)
         html.append(f"<p>{text}</p>")
 
     if in_table:
@@ -160,7 +162,7 @@ def md_to_html(md_text: str) -> str:
 def render(input_path: Path, output_path: Path) -> None:
     md_text = input_path.read_text(encoding="utf-8")
     title_match = re.search(r"^# (.+)$", md_text, re.MULTILINE)
-    title = title_match.group(1) if title_match else "AI Security Audit"
+    title = html.escape(title_match.group(1) if title_match else "AI Security Audit", quote=True)
     content = md_to_html(md_text)
     css = load_css()
     template = load_template()
