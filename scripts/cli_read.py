@@ -46,12 +46,13 @@ def run_command(command: str, args: list[str]) -> dict:
         return {"error": str(e), "command": command}
 
     if result.returncode != 0:
-        return {"error": result.stderr.strip() or "CLI command failed", "command": command, "stdout": result.stdout}
+        # CLI diagnostics may contain credentials or personal information.
+        return {"error_code": "cli_failed", "command": command, "exit_code": result.returncode}
 
     try:
         data = json.loads(result.stdout)
     except json.JSONDecodeError:
-        return {"error": "CLI returned non-JSON output", "command": command, "stdout": result.stdout[:500]}
+        return {"error_code": "non_json_output", "command": command}
 
     return data
 
@@ -67,9 +68,15 @@ def filter_fields(data: dict, fields: list[str]) -> dict:
         if any(deny in key.lower() for deny in DENY_FIELDS):
             continue
         if key in fields:
-            filtered[key] = value
+            if isinstance(value, (dict, list)):
+                # Never return nested objects wholesale: these may contain secrets.
+                filtered[key] = filter_fields(value, fields)
+            elif value is None or isinstance(value, (str, int, float, bool)):
+                filtered[key] = value
         elif isinstance(value, (dict, list)):
-            filtered[key] = filter_fields(value, fields)
+            nested = filter_fields(value, fields)
+            if nested:
+                filtered[key] = nested
     return filtered
 
 
@@ -92,6 +99,9 @@ def main() -> int:
     cmd_args.extend(args.args)
 
     data = run_command(args.command, cmd_args)
+    if isinstance(data, dict) and ("error" in data or "error_code" in data):
+        print(json.dumps({"status": "unavailable", "error_code": data.get("error_code", "cli_unavailable")}, indent=2))
+        return 1
     allowed = ALLOWED_COMMANDS[args.command]["fields"]
     filtered = filter_fields(data, allowed)
     print(json.dumps(filtered, indent=2, default=str))
