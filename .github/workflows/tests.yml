@@ -33,3 +33,7 @@ jobs:
         run: python -m compileall -q scripts
       - name: Run tests
         run: python -B -m unittest discover -s tests_current -v
+      - name: Render and validate canonical synthetic audit report
+        run: |
+          python scripts/render_report.py examples/security-audit.md -o /tmp/twinthos-security-audit.html
+          python scripts/check_report.py /tmp/twinthos-security-audit.html
