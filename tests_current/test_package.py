@@ -1,4 +1,4 @@
-"""Current-package tests. Legacy Vercel tests in tests/ are pending migration."""
+"""Current-package tests for Twinthos audit packaging and rendering."""
 import importlib.util
 import json
 import sys
