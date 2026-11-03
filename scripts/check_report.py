@@ -96,7 +96,8 @@ def check_passive_html(source: str) -> list:
     errors = []
     if re.search(r"<\s*(?:script|iframe|object|embed|form)\b", source, re.I):
         errors.append("Active HTML element in report")
-    if re.search(r"\bon[a-z]{3,}\s*=", source, re.I):
+    if any(re.search(r"\bon[a-z]{3,}\s*=", tag, re.I)
+           for tag in re.findall(r"<[A-Za-z][^>]*>", source)):
         errors.append("Inline event handler present")
     if re.search(r"\b(?:src|href|action)\s*=\s*[\"']\s*(?:https?:|data:|javascript:|//)",
                  source, re.I):
