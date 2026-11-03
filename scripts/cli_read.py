@@ -31,7 +31,7 @@ DENY_FIELDS = {"secret", "token", "key", "password", "credential", "value", "con
 
 # The CLI is a separate trust boundary. A pre-approved read command must not
 # receive arbitrary flags such as write/export/delete controls via positional args.
-IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_./:@-]{0,127}\\Z")
+IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_./:@-]{0,127}\Z")
 SCOPED_FLAGS = {"--scope", "--agent", "--project"}
 
 
