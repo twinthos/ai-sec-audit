@@ -1,6 +1,6 @@
 # Security policy
 
-This is a community-maintained, unofficial project. It is not an official Twinthos product, and reports about it are not handled by Twinthos.
+This is a Twinthos-maintained security-review skill. It is a Twinthos project, but it is not an official product, endorsement, or certification of any AI platform vendor. Security reports about this repository are handled by its maintainers, not by the platforms being reviewed.
 
 ## Reporting a vulnerability in this skill
 
