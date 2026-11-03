@@ -8,6 +8,7 @@ Never run Twinthos CLI commands directly; always invoke through this reader.
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -28,12 +29,47 @@ ALLOWED_COMMANDS = {
 
 DENY_FIELDS = {"secret", "token", "key", "password", "credential", "value", "content", "body"}
 
+# The CLI is a separate trust boundary. A pre-approved read command must not
+# receive arbitrary flags such as write/export/delete controls via positional args.
+IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_./:@-]{0,127}\Z")
+SCOPED_FLAGS = {"--scope", "--agent", "--project"}
+
+
+def safe_cli_args(args: list[str]) -> bool:
+    if not isinstance(args, list) or len(args) > 8:
+        return False
+    seen = set()
+    positional = 0
+    index = 0
+    while index < len(args):
+        arg = args[index]
+        if not isinstance(arg, str):
+            return False
+        if arg in SCOPED_FLAGS:
+            if arg in seen or index + 1 >= len(args):
+                return False
+            seen.add(arg)
+            value = args[index + 1]
+            if not isinstance(value, str) or not IDENTIFIER.fullmatch(value) or ".." in value:
+                return False
+            index += 2
+            continue
+        if arg.startswith("-") or not IDENTIFIER.fullmatch(arg) or ".." in arg:
+            return False
+        positional += 1
+        if positional > 1:
+            return False
+        index += 1
+    return True
+
 
 def check_cli_installed() -> bool:
     return shutil.which("twinthos") is not None
 
 
 def run_command(command: str, args: list[str]) -> dict:
+    if command not in ALLOWED_COMMANDS or not safe_cli_args(args):
+        return {"error_code": "invalid_cli_arguments", "command": command}
     if not check_cli_installed():
         return {"error": "twinthos CLI not installed", "command": command}
 

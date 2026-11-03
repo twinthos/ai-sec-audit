@@ -1,6 +1,6 @@
 # Twinthos AI Security Audit
 
-**Continuous threat intelligence for organizations that build, run or buy AI agents.**
+**A scoped, evidence-led, read-only review of AI agent security configuration.**
 
 Twinthos AI Security Audit is a read-only security review skill for AI agent systems. It inspects your platform configuration, connector permissions, agent definitions, deployment boundaries and monitoring setup through authenticated APIs, CLI tools and browser evidence. It produces an evidence-backed action plan and leaves your settings unchanged.
 
@@ -57,7 +57,7 @@ npx skills add twinthos/ai-sec-audit --skill twinthos-ai-sec-audit --global
 - Python 3 (standard library only) for CLI-based audits and HTML export
 - Browser tools for dashboard-only evidence and human authentication handoff
 
-The skill uses only verified read operations. Runtime permissions and account roles enforce access; skill instructions alone are not a security boundary.
+The skill uses verified read operations only. Its bundled CLI reader restricts supported command names and identifier/flag syntax; it does not make an unsafe CLI or excessive account permissions safe. Runtime permissions and account roles remain the actual security boundary.
 
 ## Output
 
@@ -67,7 +67,7 @@ The skill uses only verified read operations. Runtime permissions and account ro
 
 ## Test-suite migration status
 
-The original `tests/` suite was inherited from a different repository and still contains Vercel-specific paths and expectations. It is retained for reference but is **not a valid verification suite for this Twinthos package**. The active `tests_current/` suite checks packaging, metadata redaction and HTML rendering. This narrower green CI does **not** mean the legacy suite was migrated or all audit checks were validated. New scenario tests must be added before claiming broad coverage.
+The original `tests/` suite was inherited from a different repository and still contains Vercel-specific paths and expectations. It is retained for reference but is **not a valid verification suite for this Twinthos package**. The active `tests_current/` suite checks packaging, metadata redaction, read-only CLI argument validation and HTML rendering. This narrower green CI does **not** mean the legacy suite was migrated or all audit checks were validated. New scenario tests must be added before claiming broad coverage.
 
 ## Validate
 
