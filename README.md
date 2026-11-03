@@ -65,17 +65,21 @@ The skill uses verified read operations only. Its bundled CLI reader restricts s
 - `security-audit.json` — optional structured JSON for tooling integration
 - Styled HTML report — printable, self-contained, no external assets
 
-## Test-suite migration status
+## Verification and scope
 
-The original `tests/` suite was inherited from a different repository and still contains Vercel-specific paths and expectations. It is retained for reference but is **not a valid verification suite for this Twinthos package**. The active `tests_current/` suite checks packaging, metadata redaction, read-only CLI argument validation and HTML rendering. This narrower green CI does **not** mean the legacy suite was migrated or all audit checks were validated. New scenario tests must be added before claiming broad coverage.
+The current `tests_current/` suite covers packaging, CLI argument restrictions, evidence scope validation, safe report rendering, revision persistence, canonical checklist IDs and matrix/appendix consistency. It uses synthetic fixtures and does **not** prove the behaviour or permissions of a third-party CLI, browser, account or agent runtime.
+
+The unrelated Vercel-derived `tests/` directory has been removed from the current branch. Its history remains in Git; those tests are not represented as Twinthos security coverage.
 
 ## Validate
 
 ```sh
 python3 -m unittest discover -s tests_current -v
+python3 scripts/render_report.py examples/security-audit.md -o /tmp/twinthos-audit.html
+python3 scripts/check_report.py /tmp/twinthos-audit.html
 ```
 
-Tests require only the Python 3 standard library. Oldest tested version: Python 3.9.
+The example report is entirely synthetic. The core checklist contains 24 unique IDs in eight domains, plus four separately authorised optional checks. Unobserved controls remain `not_reviewed`. Tests require only the Python 3 standard library; oldest tested version: Python 3.9.
 
 ## Licence
 
