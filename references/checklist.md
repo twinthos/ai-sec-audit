@@ -53,20 +53,15 @@ Use exactly one status per check, plus a concise evidence-based rationale and ev
 - Evidence needed: documented job spec, decision rights, escalation paths, and human-sign-off requirements for consequential actions.
 - Cannot infer: agent behaviour from a name or description alone; compliance from a stated policy without evidence.
 
-### AGT-02 - Tool-call permission scope
-- Primary read source: platform/CLI supported tool permission metadata; browser verifies visible permission summaries.
-- Evidence needed: allowed tool list, scope summary, affected systems, and owner-confirmed purpose.
-- Cannot infer: compromise from broad permissions alone, provider-side permissions from a summary, or ownership from a display name.
+### AGT-02 - Tool and model/provider access scope
+- Primary read source: platform/CLI supported tool and model access metadata; browser verifies visible permission summaries.
+- Evidence needed: allowed tool and model lists, provider-credential scope, affected systems, and owner-confirmed purpose.
+- Cannot infer: compromise from broad permissions alone, model safety from a provider name, or ownership from a display name.
 
 ### AGT-03 - Prompt-injection defences
 - Primary read source: browser owner-visible prompt configuration; platform/CLI supported metadata reads supplement it.
 - Evidence needed: input validation rules, context boundaries, sanitisation layers, and owner-confirmed testing.
 - Cannot infer: complete protection from a single control; absence of attacks from lack of reported incidents.
-
-### AGT-04 - Model and provider access controls
-- Primary read source: platform/CLI supported model access metadata; browser verifies visible access summaries.
-- Evidence needed: visible model allowlist, provider credentials scope, and owner-confirmed need.
-- Cannot infer: model safety from a provider's name alone; cost control from a stated budget.
 
 ## Required core: secrets and data handling
 
@@ -152,6 +147,23 @@ Use exactly one status per check, plus a concise evidence-based rationale and ev
 - Primary read source: browser error-handling configuration; platform/CLI where mapped.
 - Evidence needed: visible fallback behaviour, timeout settings, circuit-breaker rules, and owner-confirmed test results.
 - Cannot infer: tested recovery from configured settings alone; absence of failures from lack of reported incidents.
+
+## Required core: source control and delivery assurance
+
+### SRC-01 - Repository exposure and ownership
+- Primary read source: authorised repository metadata and platform-visible access summaries, without reading private contents outside approved scope.
+- Evidence needed: visible repository visibility, owner/admin responsibilities, relevant access scope and available control settings.
+- Cannot infer: absence of secrets in Git history from the current source tree, or organisation ownership from the display name.
+
+### SRC-02 - Change control and protected delivery
+- Primary read source: authorised branch/review/CI settings and visible deployment workflow configuration.
+- Evidence needed: branch restrictions, mandatory checks, review gates, privileged workflow permissions and observed exceptions.
+- Cannot infer: enforcement from a green CI badge alone, or deployment security from a successful build.
+
+### SRC-03 - Dependency and supply-chain assurance
+- Primary read source: authorised manifests, dependency/update policy metadata and available scan results.
+- Evidence needed: observed lockfile/version pinning, advisory-scanner coverage, review cadence, and build provenance where visible.
+- Cannot infer: a complete vulnerability-free bill of materials from partial scans or dependency versions alone.
 
 ## Optional deeper authorized source/application review
 
