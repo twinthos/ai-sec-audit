@@ -118,8 +118,8 @@ def md_to_html(md_text: str) -> str:
                     continue
                 row = "<tr>" + "".join(f"<td>{c}</td>" for c in cells) + "</tr>"
                 for status in ["satisfactory", "action_recommended", "needs_confirmation", "not_reviewed", "not_applicable"]:
-                    if status in cells[1]:
-                        row = row.replace(status, f'<span class="status-{status}">{status}</span>')
+                    if cells and cells[-1] == status:
+                        row = row.replace(f"<td>{status}</td>", f'<td><span class="status-{status}">{status}</span></td>', 1)
                 html.append(row)
             continue
         if in_table:
