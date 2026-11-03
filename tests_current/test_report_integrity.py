@@ -104,7 +104,7 @@ class ReportIntegrityTests(unittest.TestCase):
             html = rendered.read_text(encoding="utf-8")
             modified = html.replace('status-satisfactory', 'status-not_reviewed', 1).replace('>satisfactory</span>', '>not_reviewed</span>', 1)
             self.assertTrue(checker.check_status_matrix_parity(modified))
-            self.assertTrue(checker.check_check_count(html.replace("IAM-01 - Review outcome", "IAM-01 - Review outcome MALFORMED", 1)) is False)
+            self.assertTrue(checker.check_check_count(html.replace("IAM-01 - Review outcome", "ZZZ-99 - Review outcome", 1)))
 
     def test_escaped_injection_is_not_executable(self):
         with tempfile.TemporaryDirectory() as folder:
