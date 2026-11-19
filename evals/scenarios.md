@@ -78,7 +78,7 @@ Pass: Draft a readable report with at most three initial priorities, verified st
 
 ## 13. Unformatted counter-test for report components
 
-Purpose: test whether the fixed example layout helps or hurts readability on a strong model, and which [required components](../skills/vercel-security-audit/references/report-template.md#required-components) a free-form report omits. Not yet run; run it on a real, approved test-team run once evidence has been gathered.
+Purpose: test whether the fixed example layout helps or hurts readability on a strong model, and which [required components](../references/report-template.md#required-components) a free-form report omits. Not yet run; run it on a real, approved test-team run once evidence has been gathered.
 
 Fixture: One completed collection pass, with its sanitised, approved evidence bundle saved privately. Arm A gives a strong model that same evidence, the read-only and privacy boundaries, and the audience, with no report format, template or component list. Arm B is the report produced by the skill from the same evidence. Neither arm reads the account again, and neither report is sent or published.
 

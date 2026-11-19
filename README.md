@@ -1,10 +1,16 @@
 # Twinthos AI Security Audit
 
+[![tests](https://github.com/twinthos/ai-sec-audit/actions/workflows/tests.yml/badge.svg)](https://github.com/twinthos/ai-sec-audit/actions/workflows/tests.yml)
+
 **A scoped, evidence-led, read-only review of AI agent security configuration.**
 
 Twinthos AI Security Audit is a read-only security review skill for AI agent systems. It inspects your platform configuration, connector permissions, agent definitions, deployment boundaries and monitoring setup through authenticated APIs, CLI tools and browser evidence. It produces an evidence-backed action plan and leaves your settings unchanged.
 
-This is a Twinthos product. It is not affiliated with any AI platform vendor.
+This is a Twinthos adaptation. It is not affiliated with any AI platform vendor.
+
+## Upstream and authorship
+
+Adapted from the Vercel Security Audit skill by Mike Darlington (DarlingtonDeveloper). The original MIT copyright is retained in LICENSE and NOTICE.md. Twinthos-authored work includes the current scripts, references and current test suite. Tyson Mandela specified the adaptation, reviewed the output and shipped it.
 
 ## What it audits
 
