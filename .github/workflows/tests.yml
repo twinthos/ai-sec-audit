@@ -20,8 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Oldest tested version, the version used in review, and the current release.
-        python: ["3.9", "3.13", "3.14"]
+        # Versions with available setup-python builds on the current runner.
+        python: ["3.11", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v5
         with:
